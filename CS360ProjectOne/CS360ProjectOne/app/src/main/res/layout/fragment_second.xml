@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <!--
+        Enhancement (CS 499 – Algorithms and Data Structures):
+        Search bar — drives a SQL LIKE query on every keystroke via TextWatcher.
+    -->
+    <EditText
+        android:id="@+id/inputSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="🔍 Search items..."
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_marginBottom="6dp" />
+
+    <!--
+        Sort spinner — changes ORDER BY clause at the database layer.
+    -->
+    <Spinner
+        android:id="@+id/spinnerSort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp" />
+
+    <!--
+        Low-stock warning banner — shown by the low-stock detection algorithm
+        when one or more items are at or below the threshold. Hidden by default.
+    -->
+    <TextView
+        android:id="@+id/tvLowStockWarning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF3CD"
+        android:textColor="#856404"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:layout_marginBottom="6dp"
+        android:visibility="gone"
+        tools:text="⚠️ 2 item(s) low on stock (≤ 5)"
+        tools:visibility="visible" />
+
+    <!-- Add-item row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="6dp">
+
+        <EditText
+            android:id="@+id/inputNewTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="Item name"
+            android:inputType="text"
+            android:maxLength="60" />
+
+        <EditText
+            android:id="@+id/inputNewDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="Description"
+            android:inputType="text"
+            android:maxLength="120"
+            android:layout_marginStart="6dp" />
+
+        <EditText
+            android:id="@+id/inputNewQty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Qty"
+            android:inputType="number"
+            android:maxLength="6"
+            android:layout_marginStart="6dp" />
+
+        <Button
+            android:id="@+id/btnAddRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:layout_marginStart="6dp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerGrid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/item_row" />
+
+</LinearLayout>

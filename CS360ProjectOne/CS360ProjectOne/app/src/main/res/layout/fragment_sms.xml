@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/smsHeader"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="SMS Notifications" android:textStyle="bold" android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/smsDescription"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="This app can notify you via SMS. Permission is required."
+            android:layout_marginTop="8dp"/>
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Phone number (e.g., 5551234567)" android:inputType="phone"
+            android:layout_marginTop="12dp"/>
+
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Message text" android:maxLines="3"
+            android:layout_marginTop="8dp"/>
+
+
+        <Button
+            android:id="@+id/btnCheckPermission"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Check SMS Permission" android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/tvPermissionState"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Permission status: Unknown" android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btnRequestPermission"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Request SMS Permission" android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btnSendTest"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Send Test Notification"
+            android:layout_marginTop="24dp"
+            android:enabled="false"/>
+
+        <TextView
+            android:id="@+id/tvSmsResult"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Result: (will appear here)" android:layout_marginTop="8dp"/>
+    </LinearLayout>
+</ScrollView>

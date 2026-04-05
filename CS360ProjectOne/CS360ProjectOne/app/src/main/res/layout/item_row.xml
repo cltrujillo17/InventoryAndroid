@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:contentPadding="10dp"
+    app:cardElevation="3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/labelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:text="Item Title" />
+
+            <TextView
+                android:id="@+id/labelSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
+                android:text="Description" />
+
+            <!--
+                Enhancement (CS 499 – Algorithms and Data Structures):
+                Quantity is now a real int field, not a parsed string.
+                Text color is set programmatically by GridAdapter:
+                  - Red   when qty is at or below LOW_STOCK_THRESHOLD
+                  - Blue  when qty is healthy
+            -->
+            <TextView
+                android:id="@+id/labelQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginTop="2dp"
+                android:text="Qty: 0" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnDeleteRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
