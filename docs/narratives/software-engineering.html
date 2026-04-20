@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CS 499 Milestone Two Narrative — Software Design and Engineering enhancement of the Android Inventory App." />
+  <title>Software Design & Engineering | Carlos Trujillo CS 499</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .narrative-header { padding: 120px 24px 60px; text-align: center; background: radial-gradient(ellipse at 30% 50%, rgba(79,142,247,.12) 0%, transparent 60%), var(--bg); }
+    .narrative-header .tag { font-size:.8rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+    .narrative-header h1 { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; margin-bottom:8px; }
+    .narrative-header .meta { color:var(--text-muted); font-size:.95rem; }
+    .narrative-body { max-width:800px; margin:0 auto; padding:60px 24px 100px; }
+    .narrative-body h2 { font-size:1.4rem; font-weight:700; color:var(--accent2); margin:48px 0 16px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+    .narrative-body p { color:var(--text-muted); margin-bottom:18px; line-height:1.85; }
+    .refs { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px 32px; margin-top:60px; }
+    .refs h2 { margin-top:0; }
+    .refs p { font-size:.9rem; margin-bottom:8px; }
+    .back-btn { display:inline-flex; align-items:center; gap:8px; color:var(--text-muted); font-size:.9rem; margin-bottom:40px; transition:color var(--transition); }
+    .back-btn:hover { color:var(--accent); opacity:1; }
+  </style>
+</head>
+<body>
+  <nav class="navbar scrolled">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Carlos Trujillo</a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#code-review">Code Review</a></li>
+        <li><a href="../index.html#enhancement-1">Software Design</a></li>
+        <li><a href="../index.html#enhancement-2">Algorithms</a></li>
+        <li><a href="../index.html#enhancement-3">Databases</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="narrative-header">
+    <p class="tag">Milestone Two · Enhancement One</p>
+    <h1>Software Design &amp; Engineering</h1>
+    <p class="meta">Carlos Trujillo &nbsp;·&nbsp; CS 499 Computer Science Capstone &nbsp;·&nbsp; March 22, 2026</p>
+  </header>
+
+  <main class="narrative-body">
+    <a href="../index.html" class="back-btn">← Back to Portfolio</a>
+
+    <h2>Artifact Description</h2>
+    <p>The artifact selected for this enhancement is an Android Inventory Management application originally developed during CS 360: Mobile Architecture and Programming. The application was created to fulfill a mobile development assignment requiring a fully functional Android app with user authentication, a data-driven inventory screen, and an SMS notification feature. The app is written in Java, targets Android API 34 and above, and uses Android's Navigation Component to manage transitions between screens. Its three main screens are a login fragment, an inventory grid fragment, and an SMS permissions fragment. The supporting data layer uses Android's built-in SQLiteOpenHelper class to persist user credentials and inventory records locally on the device.</p>
+
+    <h2>Justification, Skills, and Improvements</h2>
+    <p>This artifact was selected for the ePortfolio because it presents a realistic case study of functional but architecturally flawed code — the kind of situation software engineers regularly encounter in professional practice. While the app compiled and ran without crashing, several critical structural problems prevented it from functioning as intended. The most significant flaw was that the inventory screen, SecondFragment, stored all data in a plain in-memory ArrayList and never interacted with the database. This meant all inventory records were permanently lost every time the user closed the application. The contradiction — a fully written database layer that was never called by the UI — demonstrates a real-world integration failure that this enhancement directly addresses.</p>
+    <p>The first and most foundational improvement was correcting the Item.java data model. The original class contained only a title field and a detail field; quantity was embedded inside the detail string as plain text. The revised Item class introduces a properly typed <code>long id</code> field that mirrors the database primary key and an <code>int qty</code> field for safe arithmetic. A redundant inner class, AppDbHelper.ItemRow, was removed and replaced by this unified Item class throughout the codebase.</p>
+    <p>The second major improvement was the introduction of the MVVM (Model-View-ViewModel) architectural pattern through a new InventoryViewModel class. In the original implementation, SecondFragment simultaneously served as the UI controller, business logic handler, and data manager — a known anti-pattern sometimes described as the "God Fragment." The new InventoryViewModel extends Android's AndroidViewModel, holds a MutableLiveData-wrapped list of Item objects, and delegates all database operations to AppDbHelper. SecondFragment now observes this LiveData source and renders whatever the ViewModel provides.</p>
+    <p>The third improvement addressed a security vulnerability: two buttons on the login screen allowed unauthenticated users to bypass the login flow entirely. These were Debug-era navigation shortcuts left in the production build. Both buttons were removed from the layout file and the fragment controller. All navigation to authenticated screens now exclusively passes through the validated login path.</p>
+    <p>Additional improvements include modernizing GridAdapter to use ListAdapter with DiffUtil.ItemCallback for efficient animation-backed diffs, correcting deletion from position-based to ID-based to prevent index-out-of-bounds errors, extracting column name strings into constants in AppDbHelper, adding Javadoc to every public method, and replacing the deprecated SmsManager.getDefault() call with the modern getSystemService(SmsManager.class) API.</p>
+
+    <h2>Course Outcomes</h2>
+    <p>Course Outcome 3 is reflected in the architectural decision to adopt MVVM — choosing LiveData over callbacks and AndroidViewModel over plain ViewModel represents a deliberate tradeoff: slightly more structural complexity upfront in exchange for lifecycle-safe data observation and configuration-change resilience. Course Outcome 4 is demonstrated through correct application of Android architecture components (ViewModel, LiveData), ListAdapter with DiffUtil, and parameterized SQL queries. Course Outcome 5 is addressed through removal of the unauthenticated navigation bypass, introduction of defensive data validation at the database layer, and correction of the deprecated platform API.</p>
+
+    <h2>Reflection</h2>
+    <p>The most significant learning that occurred during this enhancement was developing a clearer understanding of why architectural patterns like MVVM exist. Working through the actual process of extracting database calls out of SecondFragment and placing them inside InventoryViewModel made the value concrete: without the ViewModel, a screen rotation would have re-instantiated the Fragment and lost all in-memory data. The LiveData observer pattern clarified how reactive programming reduces manual state management — instead of explicitly calling a refresh method after every add or delete, the Fragment declares what it wants to observe and the framework handles the rest.</p>
+    <p>The primary challenge was coordinating changes across multiple interdependent files simultaneously. Changing the Item data model had cascading effects on AppDbHelper, GridAdapter, SecondFragment, and the XML layout files. Each file had to be updated consistently, and the order of changes mattered to avoid intermediate compilation failures.</p>
+
+    <div class="refs">
+      <h2>References</h2>
+      <p>Google LLC. (2024). <em>Guide to app architecture.</em> Android Developers. https://developer.android.com/topic/architecture</p>
+      <p>Google LLC. (2024). <em>ViewModel overview.</em> Android Developers. https://developer.android.com/topic/libraries/architecture/viewmodel</p>
+      <p>Google LLC. (2024). <em>LiveData overview.</em> Android Developers. https://developer.android.com/topic/libraries/architecture/livedata</p>
+      <p>Martin, R. C. (2008). <em>Clean code: A handbook of agile software craftsmanship.</em> Prentice Hall.</p>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CS 499 Milestone Four Narrative — Databases enhancement: SHA-256 password hashing, schema migration, and background threading." />
+  <title>Databases | Carlos Trujillo CS 499</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .narrative-header { padding: 120px 24px 60px; text-align: center; background: radial-gradient(ellipse at 50% 60%, rgba(248,113,113,.10) 0%, transparent 60%), var(--bg); }
+    .narrative-header .tag { font-size:.8rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); margin-bottom:12px; }
+    .narrative-header h1 { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; margin-bottom:8px; }
+    .narrative-header .meta { color:var(--text-muted); font-size:.95rem; }
+    .narrative-body { max-width:800px; margin:0 auto; padding:60px 24px 100px; }
+    .narrative-body h2 { font-size:1.4rem; font-weight:700; color:var(--danger); margin:48px 0 16px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+    .narrative-body p { color:var(--text-muted); margin-bottom:18px; line-height:1.85; }
+    .refs { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px 32px; margin-top:60px; }
+    .refs h2 { margin-top:0; }
+    .refs p { font-size:.9rem; margin-bottom:8px; }
+    .back-btn { display:inline-flex; align-items:center; gap:8px; color:var(--text-muted); font-size:.9rem; margin-bottom:40px; transition:color var(--transition); }
+    .back-btn:hover { color:var(--danger); opacity:1; }
+    code { font-family:var(--mono); background:rgba(248,113,113,.12); color:var(--danger); padding:2px 7px; border-radius:4px; font-size:.88em; }
+  </style>
+</head>
+<body>
+  <nav class="navbar scrolled">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Carlos Trujillo</a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#code-review">Code Review</a></li>
+        <li><a href="../index.html#enhancement-1">Software Design</a></li>
+        <li><a href="../index.html#enhancement-2">Algorithms</a></li>
+        <li><a href="../index.html#enhancement-3">Databases</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="narrative-header">
+    <p class="tag">Milestone Four · Enhancement Three</p>
+    <h1>Databases</h1>
+    <p class="meta">Carlos Trujillo &nbsp;·&nbsp; CS 499 Computer Science Capstone &nbsp;·&nbsp; April 5, 2026</p>
+  </header>
+
+  <main class="narrative-body">
+    <a href="../index.html" class="back-btn">← Back to Portfolio</a>
+
+    <h2>Artifact Description</h2>
+    <p>The artifact for this enhancement is the Android Inventory Management application originally developed in CS 360: Mobile Architecture and Programming, and progressively enhanced throughout CS 499. The application manages user accounts and inventory records through a local SQLite database, accessed via Android's SQLiteOpenHelper class. Over the course of this capstone, the application was refactored to follow MVVM architecture (Milestone Two), extended with search, sort, and low-stock detection algorithms (Milestone Three), and is now enhanced with improved database security and reliability practices in this milestone.</p>
+
+    <h2>Justification, Skills, and Improvements</h2>
+    <p>This artifact was selected for the Databases category because the original implementation had a critical and easily exploitable security flaw at the data layer: user passwords were stored in the database as plain text. Any developer, database administrator, or attacker with access to the SQLite file could read every user's password directly. Addressing this vulnerability required applying specific knowledge of cryptographic hashing, salting, and secure random number generation.</p>
+    <p>The first and most significant improvement is the replacement of plain-text password storage with SHA-256 hashing and per-user salting. When a user creates an account, the application generates a 16-byte cryptographically random salt using Java's <code>SecureRandom</code> class, which draws from the OS entropy pool. The salt is prepended to the password bytes and the combined value is hashed using <code>MessageDigest</code> (SHA-256). Both the hash and salt are Base64-encoded and stored as text columns. The plain-text password is never stored, logged, or transmitted. The use of a unique per-user salt is critical: without it, two users with the same password would produce the same hash, making the database vulnerable to rainbow table attacks.</p>
+    <p>The second improvement is a structured database schema migration. Introducing the <code>salt</code> column required bumping the schema to version 3. The <code>onUpgrade</code> method handles the v2→v3 step by dropping and recreating the users table — the correct security decision since existing rows contain plain-text passwords that cannot be retroactively hashed. The items table is left intact so inventory data is never lost during the migration.</p>
+    <p>The third improvement moves all database operations off the Android main thread using a single-threaded <code>ExecutorService</code>. Previously, every login check, account creation, and item read ran synchronously on the UI thread. The InventoryViewModel and FirstFragment now submit each database call to a background executor thread and use <code>LiveData.postValue()</code> and <code>Activity.runOnUiThread()</code> to safely return results to the UI thread. Executors are shut down in <code>onCleared()</code> and <code>onDestroyView()</code> to prevent thread pool leaks.</p>
+
+    <h2>Course Outcomes</h2>
+    <p>This enhancement primarily addresses Course Outcome 5 — developing a security mindset that anticipates adversarial exploits and ensures privacy and enhanced security of data and resources. The password hashing implementation directly mitigates a credential exposure vulnerability identified in the Milestone One code review. The decision to use a random per-user salt reflects adversarial thinking about how an attacker might use a leaked database dump. Course Outcome 4 is addressed through the use of Java's MessageDigest and SecureRandom APIs and the ExecutorService threading pattern. All five course outcomes are now addressed across the three milestones.</p>
+
+    <h2>Reflection</h2>
+    <p>The most significant learning from this milestone came from working through what happens to a database when a security change requires a schema migration. The instinct when changing a table's schema might be to add the column with a default value and leave existing rows untouched, but thinking through the security implications revealed why that approach is wrong: rows with the old plain-text password and an empty salt value would still be vulnerable. Arriving at the decision to drop and recreate the users table — and articulating why this is the correct security posture — was the clearest moment of applying a security mindset to a real design choice rather than simply following a recipe.</p>
+    <p>The background threading work presented a different kind of challenge: understanding the threading model imposed by Android's LiveData. The key insight was that <code>setValue()</code> can only be called from the main thread, while <code>postValue()</code> can be called from any thread. This is exactly the type of bug that is difficult to catch in code review but straightforward to prevent once the threading model is understood. Consistent threading discipline — all DB calls through ExecutorService, all UI updates through the main thread — eliminates an entire class of concurrency bugs before they can occur.</p>
+
+    <div class="refs">
+      <h2>References</h2>
+      <p>Google LLC. (2024). <em>Keep sensitive data out of logs.</em> Android Developers. https://developer.android.com/privacy-and-security/risks/sensitive-data-console</p>
+      <p>Menezes, A., van Oorschot, P., &amp; Vanstone, S. (2018). <em>Handbook of applied cryptography.</em> CRC Press. https://cacr.uwaterloo.ca/hac/</p>
+      <p>OWASP Foundation. (2023). <em>Password storage cheat sheet.</em> https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html</p>
+      <p>Google LLC. (2024). <em>Threading in ViewModel.</em> Android Developers. https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-factories</p>
+    </div>
+  </main>
+</body>
+</html>

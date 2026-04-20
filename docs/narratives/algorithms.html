@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CS 499 Milestone Three Narrative — Algorithms and Data Structures enhancement of the Android Inventory App." />
+  <title>Algorithms & Data Structures | Carlos Trujillo CS 499</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .narrative-header { padding: 120px 24px 60px; text-align: center; background: radial-gradient(ellipse at 70% 40%, rgba(52,211,153,.10) 0%, transparent 60%), var(--bg); }
+    .narrative-header .tag { font-size:.8rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--accent2); margin-bottom:12px; }
+    .narrative-header h1 { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; margin-bottom:8px; }
+    .narrative-header .meta { color:var(--text-muted); font-size:.95rem; }
+    .narrative-body { max-width:800px; margin:0 auto; padding:60px 24px 100px; }
+    .narrative-body h2 { font-size:1.4rem; font-weight:700; color:var(--accent2); margin:48px 0 16px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+    .narrative-body p { color:var(--text-muted); margin-bottom:18px; line-height:1.85; }
+    .refs { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px 32px; margin-top:60px; }
+    .refs h2 { margin-top:0; }
+    .refs p { font-size:.9rem; margin-bottom:8px; }
+    .back-btn { display:inline-flex; align-items:center; gap:8px; color:var(--text-muted); font-size:.9rem; margin-bottom:40px; transition:color var(--transition); }
+    .back-btn:hover { color:var(--accent2); opacity:1; }
+    code { font-family:var(--mono); background:rgba(52,211,153,.12); color:var(--accent2); padding:2px 7px; border-radius:4px; font-size:.88em; }
+  </style>
+</head>
+<body>
+  <nav class="navbar scrolled">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Carlos Trujillo</a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#code-review">Code Review</a></li>
+        <li><a href="../index.html#enhancement-1">Software Design</a></li>
+        <li><a href="../index.html#enhancement-2">Algorithms</a></li>
+        <li><a href="../index.html#enhancement-3">Databases</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="narrative-header">
+    <p class="tag">Milestone Three · Enhancement Two</p>
+    <h1>Algorithms &amp; Data Structures</h1>
+    <p class="meta">Carlos Trujillo &nbsp;·&nbsp; CS 499 Computer Science Capstone &nbsp;·&nbsp; April 5, 2026</p>
+  </header>
+
+  <main class="narrative-body">
+    <a href="../index.html" class="back-btn">← Back to Portfolio</a>
+
+    <h2>Artifact Description</h2>
+    <p>The artifact selected for this enhancement is the same Android Inventory Management application used in Milestone Two, originally developed during CS 360: Mobile Architecture and Programming. It is written in Java, targets Android API 34, and uses SQLite via the SQLiteOpenHelper class for local data persistence. The Milestone Two enhancement refactored the application's architecture to follow the MVVM pattern and, crucially, connected the inventory screen to the database for the first time. That foundation made Milestone Three possible: once data was reliably persisted and retrieved, meaningful search, sort, and analysis algorithms could be added on top of it.</p>
+
+    <h2>Justification, Skills, and Improvements</h2>
+    <p>This artifact was selected for the Algorithms and Data Structures category because the original implementation contained no search, filter, or sort functionality whatsoever. The inventory was loaded as a flat, unordered list with no way to find a specific item or identify items that needed restocking.</p>
+    <p>The first algorithmic improvement was a real-time search filter using a SQL <code>LIKE</code> query. A <code>TextWatcher</code> on the search field calls <code>InventoryViewModel.setSearch()</code> on every keystroke, which triggers a parameterized LIKE clause with wildcard matching on the item title column. Because the title column is indexed, the LIKE lookup operates sub-linearly on the stored dataset. The use of a parameterized query also prevents SQL injection.</p>
+    <p>The second improvement was a sort capability via SQL <code>ORDER BY</code>. A Spinner exposes four sort modes: newest first, alphabetical by name, quantity low-to-high, and quantity high-to-low. Each option maps to a validated string constant defined in AppDbHelper, and the ORDER BY clause is assembled from a whitelist of known values — no user input is ever concatenated into SQL strings. Sorting is performed by the SQLite engine rather than by a Java-level Collections.sort call.</p>
+    <p>The third improvement is a low-stock detection algorithm in InventoryViewModel. After every database reload, <code>countLowStockItems()</code> performs a single O(n) linear pass over the already-loaded item list and counts items whose quantity is at or below a defined threshold (currently five units). The result drives a warning banner and red quantity labels per card. Because this algorithm runs on the list just loaded from the database, it adds zero additional query overhead. The threshold constant is defined once and referenced from all three components.</p>
+
+    <h2>Course Outcomes</h2>
+    <p>This enhancement directly addresses Course Outcome 3: designing and evaluating computing solutions using algorithmic principles while managing tradeoffs. The tradeoff between in-memory sorting and database-level ORDER BY was a deliberate design decision. Course Outcome 4 is addressed through practical implementation of data filtering, sorting, and scanning using Android's SQLite API, the TextWatcher interface, and the Spinner component. Course Outcome 5 is supported by the use of parameterized queries for the search filter (SQL injection prevention) and by controlled ORDER BY construction from a constant whitelist.</p>
+
+    <h2>Reflection</h2>
+    <p>The most valuable learning from this milestone was developing a clearer sense of which layer of an application should be responsible for which type of computation. Working through this enhancement made it concrete why in-memory filtering is inefficient: the database engine is specifically designed to evaluate WHERE and ORDER BY clauses on indexed data. This principle — that computation should happen as close to the data as possible — is one I will carry forward.</p>
+    <p>The primary challenge was maintaining consistency across multiple components that all needed to know about the same threshold value. The solution was to define the constant once in InventoryViewModel as a public static field and reference it from all other locations, rather than hardcoding the number in three separate places. A secondary challenge was ensuring search and sort state survived configuration changes — because the state is stored in the ViewModel rather than in the Fragment, it persists automatically across screen rotations.</p>
+
+    <div class="refs">
+      <h2>References</h2>
+      <p>Google LLC. (2024). <em>SQLite queries in Android.</em> Android Developers. https://developer.android.com/training/data-storage/sqlite</p>
+      <p>Cormen, T. H., Leiserson, C. E., Rivest, R. L., &amp; Stein, C. (2022). <em>Introduction to algorithms</em> (4th ed.). MIT Press.</p>
+      <p>Google LLC. (2024). <em>TextWatcher.</em> Android Developers. https://developer.android.com/reference/android/text/TextWatcher</p>
+      <p>OWASP Foundation. (2023). <em>SQL injection prevention cheat sheet.</em> https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html</p>
+    </div>
+  </main>
+</body>
+</html>
