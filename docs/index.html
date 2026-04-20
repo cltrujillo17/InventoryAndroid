@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Carlos Trujillo — CS 499 Computer Science Capstone ePortfolio. Android Inventory App enhanced with MVVM, search algorithms, and database security." />
+  <title>Carlos Trujillo | CS 499 ePortfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <span class="nav-brand">Carlos Trujillo</span>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#code-review">Code Review</a></li>
+        <li><a href="#enhancement-1">Software Design</a></li>
+        <li><a href="#enhancement-2">Algorithms</a></li>
+        <li><a href="#enhancement-3">Databases</a></li>
+        <li><a href="#artifacts">Artifacts</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-content">
+      <p class="hero-tag">CS 499 — Computer Science Capstone</p>
+      <h1>Carlos Trujillo</h1>
+      <p class="hero-sub">B.S. Computer Science &nbsp;·&nbsp; Southern New Hampshire University</p>
+      <p class="hero-desc">
+        Android software engineer — specializing in mobile architecture,
+        database security, and algorithmic design.
+      </p>
+      <a href="#about" class="btn-primary">View Portfolio ↓</a>
+    </div>
+  </header>
+
+  <!-- ── PROFESSIONAL SELF-ASSESSMENT ── -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title">Professional Self-Assessment</h2>
+      <div class="card prose">
+
+        <p>
+          Completing the Bachelor of Science in Computer Science at Southern New Hampshire
+          University has been a process of progressive, cumulative learning. Early courses
+          gave me foundational vocabulary and syntax. Later courses gave me design
+          principles and engineering judgment. The capstone forced me to apply both
+          simultaneously to a real artifact — an Android Inventory Management App —
+          and evaluate it honestly against professional standards. That evaluation revealed
+          something important: a program that compiled and ran without errors was
+          nonetheless architecturally broken in ways that would have made it unmaintainable,
+          insecure, and incorrect in production.
+        </p>
+
+        <h3>Collaborating in a Team Environment</h3>
+        <p>
+          Collaborative work in software engineering is about writing code that others
+          can understand, review, and extend. CS 250 (Software Development Lifecycle)
+          introduced me to Agile methodology; CS 320 (Software Testing and QA) reinforced
+          that readable, testable code is a prerequisite for any collaborative environment.
+          Throughout this capstone, every method includes Javadoc comments explaining its
+          contract and the reasoning behind non-obvious decisions. The code review I
+          produced for Milestone One was recorded for an audience of peers and a
+          hypothetical manager — simulating the real industry practice of presenting work
+          for group scrutiny.
+        </p>
+
+        <h3>Communicating With Stakeholders</h3>
+        <p>
+          The three milestone narratives were each addressed to a dual audience: a
+          technical instructor needing engineering depth, and a general reader needing
+          to understand why the choices mattered. Explaining why plain-text password
+          storage is a vulnerability, what a rainbow table attack is, and why a per-user
+          salt prevents it — in clear prose without assumed prior knowledge — required
+          the same translation skill a software engineer uses when presenting a security
+          proposal to a non-technical product team.
+        </p>
+
+        <h3>Data Structures and Algorithms</h3>
+        <p>
+          The Milestone Three enhancement demonstrated that algorithmic improvement is
+          often about knowing which layer should perform which computation. SQL LIKE with
+          an indexed column replaces in-memory list filtering. Validated ORDER BY constants
+          replace Java-level sorting. A single O(n) low-stock scan reuses already-loaded
+          data without an additional query. CS 260 (Data Structures and Algorithms) gave
+          me the vocabulary to reason about these tradeoffs deliberately.
+        </p>
+
+        <h3>Software Engineering and Databases</h3>
+        <p>
+          The MVVM refactor in Milestone Two reflects principles from CS 250 and CS 360:
+          separation of concerns, single responsibility, and an observable data layer.
+          The Milestone Four database enhancement built on this: SHA-256 + salt password
+          hashing, structured schema migrations, and background threading via
+          ExecutorService — each reflecting professional-grade database engineering.
+        </p>
+
+        <h3>Security Mindset</h3>
+        <p>
+          CS 405 (Secure Coding) shifted my perspective: security is a property of design
+          decisions made before a line of code is written. The SecureRandom salt
+          generation, per-user salting, the decision to drop and recreate the users table
+          during migration rather than leave old plain-text credentials in place, and
+          parameterized SQL queries throughout — each reflects adversarial thinking
+          applied at the design stage.
+        </p>
+
+        <h3>How the Artifacts Fit Together</h3>
+        <p>
+          All three enhancements were applied to a single artifact. This was deliberate.
+          The MVVM architecture (Milestone Two) was the prerequisite for search and sort
+          algorithms (Milestone Three): only once data flowed through a ViewModel could
+          real-time filtering be wired to a TextWatcher cleanly. The database security
+          improvements (Milestone Four) were meaningful only because Milestone Two had
+          connected the UI to the database in the first place. A visitor reading the
+          three enhancements in sequence traces a single engineering story: a
+          prototype-quality app transformed into a production-quality one through
+          deliberate, documented, and reasoned enhancements.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CODE REVIEW ── -->
+  <section id="code-review" class="section alt">
+    <div class="container">
+      <h2 class="section-title">Code Review</h2>
+      <div class="card">
+        <p class="card-lead">
+          An informal walkthrough of the original CS 360 Inventory App codebase —
+          covering existing functionality, identified weaknesses, and the enhancement
+          plan that drove all three milestones.
+        </p>
+        <ul class="review-topics">
+          <li>🔍 Existing functionality — login, inventory grid, SMS notification flow</li>
+          <li>⚠️ Critical bug — SecondFragment never writes to the database</li>
+          <li>🔒 Security issue — plain-text password storage in SQLite</li>
+          <li>🧱 Architecture issue — "God Fragment" anti-pattern</li>
+          <li>📋 Enhancement plan — MVVM, search/sort, SHA-256 hashing</li>
+        </ul>
+        <a href="https://youtu.be/YOUR_VIDEO_ID" target="_blank" class="btn-primary" id="codeReviewBtn">
+          ▶ Watch Code Review on YouTube
+        </a>
+        <p class="note">Note: Replace the URL above with your actual YouTube link before publishing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ENHANCEMENT 1: SOFTWARE DESIGN ── -->
+  <section id="enhancement-1" class="section">
+    <div class="container">
+      <h2 class="section-title">Enhancement One — Software Design &amp; Engineering</h2>
+      <div class="badge-row">
+        <span class="badge badge-blue">MVVM Architecture</span>
+        <span class="badge badge-blue">LiveData</span>
+        <span class="badge badge-blue">Data Model Fix</span>
+        <span class="badge badge-blue">Security Patch</span>
+      </div>
+      <div class="card prose">
+        <h3>What Was Improved</h3>
+        <ul>
+          <li><strong>Fixed the data model:</strong> <code>Item.java</code> gained a typed <code>long id</code> and <code>int qty</code> field — quantity was previously parsed from a plain string.</li>
+          <li><strong>Introduced MVVM:</strong> <code>InventoryViewModel</code> now owns all data operations and exposes inventory as <code>LiveData&lt;List&lt;Item&gt;&gt;</code>; SecondFragment only observes.</li>
+          <li><strong>Connected the database:</strong> Items finally persist across app restarts — the original app used an in-memory ArrayList that was never written to SQLite.</li>
+          <li><strong>Removed bypass buttons:</strong> Two unauthenticated buttons that skipped the login screen were deleted from both the layout and Java code.</li>
+          <li><strong>Upgraded GridAdapter:</strong> Extended <code>ListAdapter</code> with <code>DiffUtil</code> for efficient, animation-backed diffs; deletion is now ID-based, not position-based.</li>
+          <li><strong>Fixed deprecated API:</strong> <code>SmsManager.getDefault()</code> replaced with <code>getSystemService(SmsManager.class)</code>.</li>
+        </ul>
+
+        <h3>Course Outcomes Addressed</h3>
+        <p>Outcome 3 (architectural tradeoffs — MVVM), Outcome 4 (LiveData, DiffUtil, Navigation Component), Outcome 5 (bypass removal, defensive validation).</p>
+
+        <div class="btn-row">
+          <a href="narratives/software-engineering.html" class="btn-secondary">Read Full Narrative</a>
+          <a href="artifacts/original/" class="btn-outline">Original Code</a>
+          <a href="artifacts/enhanced/" class="btn-outline">Enhanced Code</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ENHANCEMENT 2: ALGORITHMS ── -->
+  <section id="enhancement-2" class="section alt">
+    <div class="container">
+      <h2 class="section-title">Enhancement Two — Algorithms &amp; Data Structures</h2>
+      <div class="badge-row">
+        <span class="badge badge-green">SQL LIKE Search</span>
+        <span class="badge badge-green">ORDER BY Sort</span>
+        <span class="badge badge-green">Low-Stock O(n) Scan</span>
+        <span class="badge badge-green">SQL Injection Prevention</span>
+      </div>
+      <div class="card prose">
+        <h3>What Was Improved</h3>
+        <ul>
+          <li><strong>Real-time search:</strong> A <code>TextWatcher</code> fires a parameterized SQL <code>LIKE '%query%'</code> query on every keystroke. The <code>idx_items_title</code> index makes this sub-linear.</li>
+          <li><strong>Sort options:</strong> A Spinner exposes four sort modes (newest, A-Z, qty low→high, qty high→low). Each maps to a validated <code>ORDER BY</code> constant — no Java-level sort is ever performed.</li>
+          <li><strong>Low-stock detection:</strong> <code>countLowStockItems()</code> performs a single O(n) pass over the already-loaded list. A warning banner and red quantity labels give immediate visual feedback.</li>
+          <li><strong>Security:</strong> Search uses parameterized queries; sort uses a whitelist of constants — no user input is ever concatenated into SQL strings.</li>
+        </ul>
+
+        <h3>Course Outcomes Addressed</h3>
+        <p>Outcome 3 (algorithmic tradeoffs — DB-layer vs. in-memory), Outcome 4 (TextWatcher, Spinner, SQL), Outcome 5 (SQL injection prevention via parameterized queries).</p>
+
+        <div class="btn-row">
+          <a href="narratives/algorithms.html" class="btn-secondary">Read Full Narrative</a>
+          <a href="artifacts/original/" class="btn-outline">Original Code</a>
+          <a href="artifacts/enhanced/" class="btn-outline">Enhanced Code</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ENHANCEMENT 3: DATABASES ── -->
+  <section id="enhancement-3" class="section">
+    <div class="container">
+      <h2 class="section-title">Enhancement Three — Databases</h2>
+      <div class="badge-row">
+        <span class="badge badge-red">SHA-256 + Salt</span>
+        <span class="badge badge-red">SecureRandom</span>
+        <span class="badge badge-red">Schema Migration</span>
+        <span class="badge badge-red">Background Threading</span>
+      </div>
+      <div class="card prose">
+        <h3>What Was Improved</h3>
+        <ul>
+          <li><strong>Password hashing:</strong> <code>SecureRandom</code> generates a 16-byte per-user salt. <code>MessageDigest</code> produces a SHA-256 hash. Only the hash and Base64-encoded salt are stored — never the plain-text password.</li>
+          <li><strong>Schema migration v2→v3:</strong> The <code>salt</code> column required a new DB version. <code>onUpgrade</code> drops and recreates the users table (items preserved). Existing plain-text rows cannot be retroactively hashed — re-registration is the correct security posture.</li>
+          <li><strong>Background threading:</strong> All DB operations run on a single-threaded <code>ExecutorService</code>. <code>postValue()</code> crosses the thread boundary safely. Executors are shut down in <code>onCleared()</code> and <code>onDestroyView()</code>.</li>
+        </ul>
+
+        <h3>Course Outcomes Addressed</h3>
+        <p>Outcome 4 (MessageDigest, SecureRandom, ExecutorService APIs), Outcome 5 (credential security, rainbow table mitigation, adversarial schema design).</p>
+
+        <div class="btn-row">
+          <a href="narratives/databases.html" class="btn-secondary">Read Full Narrative</a>
+          <a href="artifacts/original/" class="btn-outline">Original Code</a>
+          <a href="artifacts/enhanced/" class="btn-outline">Enhanced Code</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ARTIFACTS DOWNLOAD ── -->
+  <section id="artifacts" class="section alt">
+    <div class="container">
+      <h2 class="section-title">Artifacts &amp; Downloads</h2>
+      <div class="artifact-grid">
+        <div class="artifact-card">
+          <div class="artifact-icon">📦</div>
+          <h3>Original Artifact</h3>
+          <p>Unmodified CS 360 Android Inventory App source code.</p>
+          <a href="artifacts/CS360_Original.zip" class="btn-outline" id="originalArtifactBtn">Download ZIP</a>
+        </div>
+        <div class="artifact-card">
+          <div class="artifact-icon">🚀</div>
+          <h3>Enhanced Artifact</h3>
+          <p>All three enhancements applied — MVVM, search/sort, password hashing.</p>
+          <a href="artifacts/CS499_Enhanced.zip" class="btn-outline" id="enhancedArtifactBtn">Download ZIP</a>
+        </div>
+        <div class="artifact-card">
+          <div class="artifact-icon">📝</div>
+          <h3>Narratives</h3>
+          <p>All three milestone narratives as Word documents.</p>
+          <a href="narratives/" class="btn-outline" id="narrativesBtn">Browse Narratives</a>
+        </div>
+        <div class="artifact-card">
+          <div class="artifact-icon">💻</div>
+          <h3>GitHub Repository</h3>
+          <p>Full source history with commit messages documenting each enhancement.</p>
+          <a href="https://github.com/cltrujillo17/InventoryAndroid" target="_blank" class="btn-outline" id="githubBtn">View on GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="container">
+      <p>Carlos Trujillo &nbsp;·&nbsp; CS 499 Computer Science Capstone &nbsp;·&nbsp; SNHU 2026</p>
+      <p class="footer-links">
+        <a href="https://github.com/cltrujillo17" target="_blank">GitHub</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav shadow
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    // Mobile nav toggle
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href'))
+          ?.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
