@@ -1,10 +1,6 @@
 # Professional Self-Assessment
 ## Carlos Trujillo — B.S. Computer Science, SNHU
 
----
-
-> **Formatting note for Word submission:**
-> Double spacing | 12-point Times New Roman | 1-inch margins
 
 ---
 

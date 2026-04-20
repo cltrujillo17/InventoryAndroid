@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Carlos Trujillo — CS 499 Computer Science Capstone ePortfolio. Android Inventory App enhanced with MVVM, search algorithms, and database security." />
+  <meta name="description"
+    content="Carlos Trujillo — CS 499 Computer Science Capstone ePortfolio. Android Inventory App enhanced with MVVM, search algorithms, and database security." />
   <title>Carlos Trujillo | CS 499 ePortfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
   <!-- ── NAV ── -->
@@ -146,10 +151,9 @@
           <li>🧱 Architecture issue — "God Fragment" anti-pattern</li>
           <li>📋 Enhancement plan — MVVM, search/sort, SHA-256 hashing</li>
         </ul>
-        <a href="https://youtu.be/YOUR_VIDEO_ID" target="_blank" class="btn-primary" id="codeReviewBtn">
+        <a href="https://youtu.be/Pn3RG1BJJCE" target="_blank" class="btn-primary" id="codeReviewBtn">
           ▶ Watch Code Review on YouTube
         </a>
-        <p class="note">Note: Replace the URL above with your actual YouTube link before publishing.</p>
       </div>
     </div>
   </section>
@@ -167,16 +171,23 @@
       <div class="card prose">
         <h3>What Was Improved</h3>
         <ul>
-          <li><strong>Fixed the data model:</strong> <code>Item.java</code> gained a typed <code>long id</code> and <code>int qty</code> field — quantity was previously parsed from a plain string.</li>
-          <li><strong>Introduced MVVM:</strong> <code>InventoryViewModel</code> now owns all data operations and exposes inventory as <code>LiveData&lt;List&lt;Item&gt;&gt;</code>; SecondFragment only observes.</li>
-          <li><strong>Connected the database:</strong> Items finally persist across app restarts — the original app used an in-memory ArrayList that was never written to SQLite.</li>
-          <li><strong>Removed bypass buttons:</strong> Two unauthenticated buttons that skipped the login screen were deleted from both the layout and Java code.</li>
-          <li><strong>Upgraded GridAdapter:</strong> Extended <code>ListAdapter</code> with <code>DiffUtil</code> for efficient, animation-backed diffs; deletion is now ID-based, not position-based.</li>
-          <li><strong>Fixed deprecated API:</strong> <code>SmsManager.getDefault()</code> replaced with <code>getSystemService(SmsManager.class)</code>.</li>
+          <li><strong>Fixed the data model:</strong> <code>Item.java</code> gained a typed <code>long id</code> and
+            <code>int qty</code> field — quantity was previously parsed from a plain string.</li>
+          <li><strong>Introduced MVVM:</strong> <code>InventoryViewModel</code> now owns all data operations and exposes
+            inventory as <code>LiveData&lt;List&lt;Item&gt;&gt;</code>; SecondFragment only observes.</li>
+          <li><strong>Connected the database:</strong> Items finally persist across app restarts — the original app used
+            an in-memory ArrayList that was never written to SQLite.</li>
+          <li><strong>Removed bypass buttons:</strong> Two unauthenticated buttons that skipped the login screen were
+            deleted from both the layout and Java code.</li>
+          <li><strong>Upgraded GridAdapter:</strong> Extended <code>ListAdapter</code> with <code>DiffUtil</code> for
+            efficient, animation-backed diffs; deletion is now ID-based, not position-based.</li>
+          <li><strong>Fixed deprecated API:</strong> <code>SmsManager.getDefault()</code> replaced with
+            <code>getSystemService(SmsManager.class)</code>.</li>
         </ul>
 
         <h3>Course Outcomes Addressed</h3>
-        <p>Outcome 3 (architectural tradeoffs — MVVM), Outcome 4 (LiveData, DiffUtil, Navigation Component), Outcome 5 (bypass removal, defensive validation).</p>
+        <p>Outcome 3 (architectural tradeoffs — MVVM), Outcome 4 (LiveData, DiffUtil, Navigation Component), Outcome 5
+          (bypass removal, defensive validation).</p>
 
         <div class="btn-row">
           <a href="narratives/software-engineering.html" class="btn-secondary">Read Full Narrative</a>
@@ -200,14 +211,21 @@
       <div class="card prose">
         <h3>What Was Improved</h3>
         <ul>
-          <li><strong>Real-time search:</strong> A <code>TextWatcher</code> fires a parameterized SQL <code>LIKE '%query%'</code> query on every keystroke. The <code>idx_items_title</code> index makes this sub-linear.</li>
-          <li><strong>Sort options:</strong> A Spinner exposes four sort modes (newest, A-Z, qty low→high, qty high→low). Each maps to a validated <code>ORDER BY</code> constant — no Java-level sort is ever performed.</li>
-          <li><strong>Low-stock detection:</strong> <code>countLowStockItems()</code> performs a single O(n) pass over the already-loaded list. A warning banner and red quantity labels give immediate visual feedback.</li>
-          <li><strong>Security:</strong> Search uses parameterized queries; sort uses a whitelist of constants — no user input is ever concatenated into SQL strings.</li>
+          <li><strong>Real-time search:</strong> A <code>TextWatcher</code> fires a parameterized SQL
+            <code>LIKE '%query%'</code> query on every keystroke. The <code>idx_items_title</code> index makes this
+            sub-linear.</li>
+          <li><strong>Sort options:</strong> A Spinner exposes four sort modes (newest, A-Z, qty low→high, qty
+            high→low). Each maps to a validated <code>ORDER BY</code> constant — no Java-level sort is ever performed.
+          </li>
+          <li><strong>Low-stock detection:</strong> <code>countLowStockItems()</code> performs a single O(n) pass over
+            the already-loaded list. A warning banner and red quantity labels give immediate visual feedback.</li>
+          <li><strong>Security:</strong> Search uses parameterized queries; sort uses a whitelist of constants — no user
+            input is ever concatenated into SQL strings.</li>
         </ul>
 
         <h3>Course Outcomes Addressed</h3>
-        <p>Outcome 3 (algorithmic tradeoffs — DB-layer vs. in-memory), Outcome 4 (TextWatcher, Spinner, SQL), Outcome 5 (SQL injection prevention via parameterized queries).</p>
+        <p>Outcome 3 (algorithmic tradeoffs — DB-layer vs. in-memory), Outcome 4 (TextWatcher, Spinner, SQL), Outcome 5
+          (SQL injection prevention via parameterized queries).</p>
 
         <div class="btn-row">
           <a href="narratives/algorithms.html" class="btn-secondary">Read Full Narrative</a>
@@ -231,13 +249,20 @@
       <div class="card prose">
         <h3>What Was Improved</h3>
         <ul>
-          <li><strong>Password hashing:</strong> <code>SecureRandom</code> generates a 16-byte per-user salt. <code>MessageDigest</code> produces a SHA-256 hash. Only the hash and Base64-encoded salt are stored — never the plain-text password.</li>
-          <li><strong>Schema migration v2→v3:</strong> The <code>salt</code> column required a new DB version. <code>onUpgrade</code> drops and recreates the users table (items preserved). Existing plain-text rows cannot be retroactively hashed — re-registration is the correct security posture.</li>
-          <li><strong>Background threading:</strong> All DB operations run on a single-threaded <code>ExecutorService</code>. <code>postValue()</code> crosses the thread boundary safely. Executors are shut down in <code>onCleared()</code> and <code>onDestroyView()</code>.</li>
+          <li><strong>Password hashing:</strong> <code>SecureRandom</code> generates a 16-byte per-user salt.
+            <code>MessageDigest</code> produces a SHA-256 hash. Only the hash and Base64-encoded salt are stored — never
+            the plain-text password.</li>
+          <li><strong>Schema migration v2→v3:</strong> The <code>salt</code> column required a new DB version.
+            <code>onUpgrade</code> drops and recreates the users table (items preserved). Existing plain-text rows
+            cannot be retroactively hashed — re-registration is the correct security posture.</li>
+          <li><strong>Background threading:</strong> All DB operations run on a single-threaded
+            <code>ExecutorService</code>. <code>postValue()</code> crosses the thread boundary safely. Executors are
+            shut down in <code>onCleared()</code> and <code>onDestroyView()</code>.</li>
         </ul>
 
         <h3>Course Outcomes Addressed</h3>
-        <p>Outcome 4 (MessageDigest, SecureRandom, ExecutorService APIs), Outcome 5 (credential security, rainbow table mitigation, adversarial schema design).</p>
+        <p>Outcome 4 (MessageDigest, SecureRandom, ExecutorService APIs), Outcome 5 (credential security, rainbow table
+          mitigation, adversarial schema design).</p>
 
         <div class="btn-row">
           <a href="narratives/databases.html" class="btn-secondary">Read Full Narrative</a>
@@ -275,7 +300,8 @@
           <div class="artifact-icon">💻</div>
           <h3>GitHub Repository</h3>
           <p>Full source history with commit messages documenting each enhancement.</p>
-          <a href="https://github.com/cltrujillo17/InventoryAndroid" target="_blank" class="btn-outline" id="githubBtn">View on GitHub</a>
+          <a href="https://github.com/cltrujillo17/InventoryAndroid" target="_blank" class="btn-outline"
+            id="githubBtn">View on GitHub</a>
         </div>
       </div>
     </div>
@@ -311,4 +337,5 @@
     });
   </script>
 </body>
+
 </html>

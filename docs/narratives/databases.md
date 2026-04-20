@@ -5,10 +5,6 @@
 **Course:** CS 499 — Computer Science Capstone
 **Date:** April 5, 2026
 
----
-
-> **Formatting note for Word submission:**
-> Double spacing | 12-point Times New Roman | 1-inch margins
 
 ---
 
