@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CS 499 Capstone milestone narratives — Software Design, Algorithms, and Databases enhancements by Carlos Trujillo." />
+  <title>Milestone Narratives | Carlos Trujillo CS 499</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .page-header {
+      padding: 120px 24px 60px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(79,142,247,.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 20%, rgba(52,211,153,.08) 0%, transparent 60%),
+        var(--bg);
+    }
+    .page-header .tag {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .page-header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff 40%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .page-header .sub {
+      color: var(--text-muted);
+      font-size: .95rem;
+    }
+    .narratives-body {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: .9rem;
+      margin-bottom: 48px;
+      transition: color var(--transition);
+    }
+    .back-btn:hover { color: var(--accent); opacity: 1; }
+
+    .narrative-cards { display: flex; flex-direction: column; gap: 24px; }
+
+    .narrative-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      box-shadow: var(--shadow);
+      transition: border-color var(--transition), transform var(--transition);
+      text-decoration: none;
+    }
+    .narrative-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      opacity: 1;
+    }
+    .nc-icon {
+      font-size: 2.4rem;
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+    }
+    .nc-icon.blue  { background: rgba(79,142,247,.12);  }
+    .nc-icon.green { background: rgba(52,211,153,.12);  }
+    .nc-icon.red   { background: rgba(248,113,113,.12); }
+
+    .nc-body { flex: 1; min-width: 0; }
+    .nc-milestone {
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .nc-milestone.blue  { color: var(--accent);  }
+    .nc-milestone.green { color: var(--accent2); }
+    .nc-milestone.red   { color: var(--danger);  }
+
+    .nc-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .nc-desc {
+      font-size: .92rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .nc-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+    .nc-arrow {
+      flex-shrink: 0;
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      align-self: center;
+      transition: color var(--transition), transform var(--transition);
+    }
+    .narrative-card:hover .nc-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 600px) {
+      .narrative-card { flex-direction: column; gap: 18px; padding: 24px; }
+      .nc-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar scrolled">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Carlos Trujillo</a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#code-review">Code Review</a></li>
+        <li><a href="../index.html#enhancement-1">Software Design</a></li>
+        <li><a href="../index.html#enhancement-2">Algorithms</a></li>
+        <li><a href="../index.html#enhancement-3">Databases</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <p class="tag">CS 499 Computer Science Capstone</p>
+    <h1>Milestone Narratives</h1>
+    <p class="sub">Carlos Trujillo &nbsp;·&nbsp; Southern New Hampshire University &nbsp;·&nbsp; 2026</p>
+  </header>
+
+  <main class="narratives-body">
+    <a href="../index.html" class="back-btn">← Back to Portfolio</a>
+
+    <div class="narrative-cards">
+
+      <!-- Milestone 2 — Software Design & Engineering -->
+      <a href="software-engineering.html" class="narrative-card" id="narrativeSoftwareDesign">
+        <div class="nc-icon blue">🏗️</div>
+        <div class="nc-body">
+          <p class="nc-milestone blue">Milestone Two · Enhancement One</p>
+          <p class="nc-title">Software Design &amp; Engineering</p>
+          <p class="nc-desc">
+            MVVM architectural refactor — introducing <code>InventoryViewModel</code> and <code>LiveData</code>,
+            fixing the <code>Item</code> data model, connecting the dormant database layer, removing
+            unauthenticated bypass buttons, and upgrading <code>GridAdapter</code> to <code>ListAdapter</code>
+            with <code>DiffUtil</code>.
+          </p>
+          <div class="nc-badges">
+            <span class="badge badge-blue">MVVM</span>
+            <span class="badge badge-blue">LiveData</span>
+            <span class="badge badge-blue">DiffUtil</span>
+            <span class="badge badge-blue">Security Patch</span>
+          </div>
+        </div>
+        <span class="nc-arrow">→</span>
+      </a>
+
+      <!-- Milestone 3 — Algorithms & Data Structures -->
+      <a href="algorithms.html" class="narrative-card" id="narrativeAlgorithms">
+        <div class="nc-icon green">⚡</div>
+        <div class="nc-body">
+          <p class="nc-milestone green">Milestone Three · Enhancement Two</p>
+          <p class="nc-title">Algorithms &amp; Data Structures</p>
+          <p class="nc-desc">
+            Real-time SQL <code>LIKE</code> search via <code>TextWatcher</code>, four-mode
+            <code>ORDER BY</code> sort spinner with injection-safe whitelist constants, and an
+            O(n) low-stock detection pass that surfaces a warning banner without an extra query.
+          </p>
+          <div class="nc-badges">
+            <span class="badge badge-green">SQL LIKE Search</span>
+            <span class="badge badge-green">ORDER BY Sort</span>
+            <span class="badge badge-green">Low-Stock O(n)</span>
+            <span class="badge badge-green">SQL Injection Prevention</span>
+          </div>
+        </div>
+        <span class="nc-arrow">→</span>
+      </a>
+
+      <!-- Milestone 4 — Databases -->
+      <a href="databases.html" class="narrative-card" id="narrativeDatabases">
+        <div class="nc-icon red">🗄️</div>
+        <div class="nc-body">
+          <p class="nc-milestone red">Milestone Four · Enhancement Three</p>
+          <p class="nc-title">Databases</p>
+          <p class="nc-desc">
+            SHA-256 password hashing with <code>SecureRandom</code>-generated per-user salts,
+            a structured schema v2→v3 migration that drops and recreates the users table
+            (items preserved), and background threading for all DB operations via a
+            single-threaded <code>ExecutorService</code>.
+          </p>
+          <div class="nc-badges">
+            <span class="badge badge-red">SHA-256 + Salt</span>
+            <span class="badge badge-red">SecureRandom</span>
+            <span class="badge badge-red">Schema Migration</span>
+            <span class="badge badge-red">Background Threading</span>
+          </div>
+        </div>
+        <span class="nc-arrow">→</span>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Carlos Trujillo &nbsp;·&nbsp; CS 499 Computer Science Capstone &nbsp;·&nbsp; SNHU 2026</p>
+      <p class="footer-links">
+        <a href="https://github.com/cltrujillo17" target="_blank">GitHub</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
